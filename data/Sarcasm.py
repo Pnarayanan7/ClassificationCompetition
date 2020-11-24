@@ -41,7 +41,7 @@ for context_list in test_contexts:
          context_list[idx] = context.split()
 
 #get rid of stop words
-#stemming (normalization)
+#stemming 
 stop_words = set(stopwords.words('english'))
 ps = PorterStemmer()
 
