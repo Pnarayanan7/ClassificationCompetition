@@ -4,7 +4,7 @@ from tokenize import tokenize
 from nltk.corpus import stopwords
 from nltk.stem.porter import PorterStemmer
 from sklearn.svm import LinearSVC, SVC
-from sklearn.naive_bayes import GaussianNB
+from sklearn.naive_bayes import GaussianNB, MultinomialNB
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.preprocessing import StandardScaler
 from sklearn.pipeline import Pipeline
@@ -121,7 +121,7 @@ train_tfidf = np.array(train_tfidf)
 test_tfidf = np.array(test_tfidf)
 train_tfidf = train_tfidf.astype(np.float64)
 test_tfidf = test_tfidf.astype(np.float64)
-clf = GaussianNB()
+clf = MultinomialNB()
 clf.fit(train_tfidf, train_labels)
 test_labels = clf.predict(test_tfidf)
 
