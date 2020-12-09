@@ -9,9 +9,14 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.preprocessing import StandardScaler
 from sklearn.pipeline import Pipeline
 from nltk.stem import WordNetLemmatizer
+import emoji
 
 
 #parse testing data (id for submission)
+# def convert_emoticons(text):
+#     for emot in EMOTICONS:
+#         text = re.sub(u'('+emot+')', "_".join(EMOTICONS[emot].replace(",","").split()), text)
+#     return text
 
 train_labels = []
 train_responses = []
@@ -60,6 +65,7 @@ for i, response in enumerate(train_responses):
         if word not in stop_words:
             resp.append(word)
     train_responses[i] = ' '.join(resp)
+    train_responses[i] = emoji.demojize(train_responses[i])
 
 for i, context_list in enumerate(train_contexts):
     for j, context in enumerate(context_list):
@@ -83,6 +89,7 @@ for i, response in enumerate(test_responses):
         if word not in stop_words:
             resp.append(word)
     test_responses[i] = ' '.join(resp)
+    test_responses[i] = emoji.demojize(test_responses[i])
 
 for i, context_list in enumerate(test_contexts):
     for j, context in enumerate(context_list):
