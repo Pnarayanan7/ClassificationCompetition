@@ -111,18 +111,19 @@ test_tfidf = tv.transform(test_responses).toarray()
 
 # estimators = [('normalize', StandardScaler()), ('svm', SVC())]
 # lsvc = Pipeline(estimators)
-lsvc = SVC()
-lsvc.fit(train_tfidf, train_labels)
-test_labels = lsvc.predict(test_tfidf)
+
+# lsvc = SVC()
+# lsvc.fit(train_tfidf, train_labels)
+# test_labels = lsvc.predict(test_tfidf)
 #print(test_labels)
 
-# train_tfidf = np.array(train_tfidf)
-# test_tfidf = np.array(test_tfidf)
-# train_tfidf = train_tfidf.astype(np.float64)
-# test_tfidf = test_tfidf.astype(np.float64)
-# clf = GaussianNB()
-# clf.fit(train_tfidf, train_labels)
-# test_labels = clf.predict(test_tfidf)
+train_tfidf = np.array(train_tfidf)
+test_tfidf = np.array(test_tfidf)
+train_tfidf = train_tfidf.astype(np.float64)
+test_tfidf = test_tfidf.astype(np.float64)
+clf = GaussianNB()
+clf.fit(train_tfidf, train_labels)
+test_labels = clf.predict(test_tfidf)
 
 
 #output test labels to test file
