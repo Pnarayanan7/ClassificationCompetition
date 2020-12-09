@@ -3,7 +3,7 @@ import numpy as np
 from tokenize import tokenize
 from nltk.corpus import stopwords
 from nltk.stem.porter import PorterStemmer
-from sklearn.svm import LinearSVC
+from sklearn.svm import LinearSVC, SVC
 from sklearn.naive_bayes import GaussianNB
 from sklearn.feature_extraction.text import TfidfVectorizer
 
@@ -96,7 +96,7 @@ tv = TfidfVectorizer(max_features = 5000)
 train_tfidf = tv.fit_transform(train_responses).toarray()
 test_tfidf = tv.transform(test_responses).toarray()
 
-lsvc = LinearSVC()
+lsvc = SVC()
 lsvc.fit(train_tfidf, train_labels)
 test_labels = lsvc.predict(test_tfidf)
 #print(test_labels)
