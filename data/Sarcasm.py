@@ -64,7 +64,8 @@ for i, response in enumerate(train_responses):
             continue
         word = ps.stem(word.lower())
         word = lemmatizer.lemmatize(word)
-        resp.append(word)
+        if word not in stop_words and word != '<URL>':
+            resp.append(word)
     train_responses[i] = ' '.join(resp)
     train_responses[i] = emoji.demojize(train_responses[i])
 
@@ -76,7 +77,8 @@ for i, context_list in enumerate(train_contexts):
                 continue
             word = ps.stem(word.lower())
             word = lemmatizer.lemmatize(word)
-            context_l.append(word)
+            if word not in stop_words and word != '<URL>':
+                context_l.append(word)
         context_list[j] = context_l
     train_contexts[i] = context_list
 
@@ -92,7 +94,8 @@ for i, response in enumerate(test_responses):
             continue
         word = ps.stem(word.lower())
         word = lemmatizer.lemmatize(word)
-        resp.append(word)
+        if word not in stop_words and word != '<URL>':
+            resp.append(word)
     test_responses[i] = ' '.join(resp)
     test_responses[i] = emoji.demojize(test_responses[i])
 
@@ -104,7 +107,8 @@ for i, context_list in enumerate(test_contexts):
                 continue
             word = ps.stem(word.lower())
             word = lemmatizer.lemmatize(word)
-            context_l.append(word)
+            if word not in stop_words and word != '<URL>':
+                context_l.append(word)
         context_list[j] = context_l
     test_contexts[i] = context_list
 
