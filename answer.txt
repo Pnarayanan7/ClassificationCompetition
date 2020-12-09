@@ -505,7 +505,7 @@ twitter_504,SARCASM
 twitter_505,SARCASM
 twitter_506,SARCASM
 twitter_507,SARCASM
-twitter_508,SARCASM
+twitter_508,NOT_SARCASM
 twitter_509,NOT_SARCASM
 twitter_510,SARCASM
 twitter_511,SARCASM
@@ -1205,7 +1205,7 @@ twitter_1204,SARCASM
 twitter_1205,SARCASM
 twitter_1206,SARCASM
 twitter_1207,SARCASM
-twitter_1208,NOT_SARCASM
+twitter_1208,SARCASM
 twitter_1209,SARCASM
 twitter_1210,SARCASM
 twitter_1211,SARCASM
@@ -1440,7 +1440,7 @@ twitter_1439,SARCASM
 twitter_1440,NOT_SARCASM
 twitter_1441,SARCASM
 twitter_1442,SARCASM
-twitter_1443,NOT_SARCASM
+twitter_1443,SARCASM
 twitter_1444,SARCASM
 twitter_1445,SARCASM
 twitter_1446,NOT_SARCASM
