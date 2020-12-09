@@ -111,7 +111,7 @@ test_tfidf = tv.transform(test_responses).toarray()
 
 # estimators = [('normalize', StandardScaler()), ('svm', SVC())]
 # lsvc = Pipeline(estimators)
-lsvc = SVC()
+lsvc = SVC(tol=1e-4)
 lsvc.fit(train_tfidf, train_labels)
 test_labels = lsvc.predict(test_tfidf)
 #print(test_labels)
