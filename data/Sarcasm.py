@@ -64,7 +64,7 @@ for i, response in enumerate(train_responses):
             continue
         word = ps.stem(word.lower())
         word = lemmatizer.lemmatize(word)
-        if word not in stop_words and word != '<URL>' :
+        if word not in stop_words and word != '<URL>':
             resp.append(word)
     train_responses[i] = ' '.join(resp)
     train_responses[i] = emoji.demojize(train_responses[i])
