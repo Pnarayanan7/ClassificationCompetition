@@ -62,7 +62,7 @@ for i, response in enumerate(train_responses):
     for j, word in enumerate(response):
         word = ps.stem(word.lower())
         word = lemmatizer.lemmatize(word)
-        if word not in stop_words:
+        if word not in stop_words and word != "@user":
             resp.append(word)
     train_responses[i] = ' '.join(resp)
     train_responses[i] = emoji.demojize(train_responses[i])
@@ -72,7 +72,7 @@ for i, context_list in enumerate(train_contexts):
         context_l = []
         for k, word in enumerate(context):
             word = ps.stem(word.lower())
-            if word not in stop_words:
+            if word not in stop_words and word != "@user":
                 context_l.append(word)
         context_list[j] = context_l
     train_contexts[i] = context_list
@@ -86,7 +86,7 @@ for i, response in enumerate(test_responses):
     resp = []
     for j, word in enumerate(response):
         word = ps.stem(word.lower())
-        if word not in stop_words:
+        if word not in stop_words and word != "@user":
             resp.append(word)
     test_responses[i] = ' '.join(resp)
     test_responses[i] = emoji.demojize(test_responses[i])
@@ -96,7 +96,7 @@ for i, context_list in enumerate(test_contexts):
         context_l = []
         for k, word in enumerate(context):
             word = ps.stem(word.lower())
-            if word not in stop_words:
+            if word not in stop_words and word != "@user":
                 context_l.append(word)
         context_list[j] = context_l
     test_contexts[i] = context_list
@@ -116,7 +116,7 @@ test_tfidf = tv.transform(test_responses).toarray()
 # lsvc.fit(train_tfidf, train_labels)
 # test_labels = lsvc.predict(test_tfidf)
 #print(test_labels)
-
+print(train_responses[0])
 train_tfidf = np.array(train_tfidf)
 test_tfidf = np.array(test_tfidf)
 train_tfidf = train_tfidf.astype(np.float64)
