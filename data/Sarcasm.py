@@ -6,6 +6,8 @@ from nltk.stem.porter import PorterStemmer
 from sklearn.svm import LinearSVC, SVC
 from sklearn.naive_bayes import GaussianNB
 from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.preprocessing import StandardScaler
+from sklearn.pipeline import Pipeline
 
 
 #parse testing data (id for submission)
@@ -96,7 +98,10 @@ tv = TfidfVectorizer(max_features = 5000)
 train_tfidf = tv.fit_transform(train_responses).toarray()
 test_tfidf = tv.transform(test_responses).toarray()
 
-lsvc = SVC(kernel='linear')
+
+estimators = [('normalize', StandardScaler()), ('svm', SVC())]
+lsvc = Pipeline(estimators)
+#lsvc = SVC()
 lsvc.fit(train_tfidf, train_labels)
 test_labels = lsvc.predict(test_tfidf)
 #print(test_labels)
