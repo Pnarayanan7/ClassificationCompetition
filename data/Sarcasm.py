@@ -96,7 +96,7 @@ tv = TfidfVectorizer(max_features = 5000)
 train_tfidf = tv.fit_transform(train_responses).toarray()
 test_tfidf = tv.transform(test_responses).toarray()
 
-lsvc = SVC()
+lsvc = SVC(kernel='linear')
 lsvc.fit(train_tfidf, train_labels)
 test_labels = lsvc.predict(test_tfidf)
 #print(test_labels)
