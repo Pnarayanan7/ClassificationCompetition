@@ -121,7 +121,7 @@ train_tfidf = np.array(train_tfidf)
 test_tfidf = np.array(test_tfidf)
 train_tfidf = train_tfidf.astype(np.float64)
 test_tfidf = test_tfidf.astype(np.float64)
-clf = MultinomialNB(alpha=0.8)
+clf = MultinomialNB(alpha=1.5)
 clf.fit(train_tfidf, train_labels)
 test_labels = clf.predict(test_tfidf)
 
