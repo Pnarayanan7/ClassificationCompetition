@@ -94,7 +94,7 @@ for i, context_list in enumerate(test_contexts):
 #use one of the sklearn classifiers to train and then label test data (SVM)
 tv = TfidfVectorizer(max_features = 5000)
 train_tfidf = tv.fit_transform(train_responses).toarray()
-test_tfidf = tv.fit_transform(test_responses).toarray()
+test_tfidf = tv.transform(test_responses).toarray()
 
 # lsvc = LinearSVC()
 # lsvc.fit(train_tfidf, train_labels)
