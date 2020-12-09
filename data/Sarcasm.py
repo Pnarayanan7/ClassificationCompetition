@@ -8,6 +8,7 @@ from sklearn.naive_bayes import GaussianNB
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.preprocessing import StandardScaler
 from sklearn.pipeline import Pipeline
+from nltk.stem import WordNetLemmatizer
 
 
 #parse testing data (id for submission)
@@ -48,12 +49,14 @@ for context_list in test_contexts:
 #stemming
 stop_words = set(stopwords.words('english'))
 ps = PorterStemmer()
+lemmatizer = WordNetLemmatizer()
 
 #print(train_contexts[0], len(train_contexts[0][0]))
 for i, response in enumerate(train_responses):
     resp = []
     for j, word in enumerate(response):
         word = ps.stem(word.lower())
+        word = lemmatizer.lemmatize(word)
         if word not in stop_words:
             resp.append(word)
     train_responses[i] = ' '.join(resp)
@@ -99,9 +102,9 @@ train_tfidf = tv.fit_transform(train_responses).toarray()
 test_tfidf = tv.transform(test_responses).toarray()
 
 
-estimators = [('normalize', StandardScaler()), ('svm', SVC())]
-lsvc = Pipeline(estimators)
-#lsvc = SVC()
+# estimators = [('normalize', StandardScaler()), ('svm', SVC())]
+# lsvc = Pipeline(estimators)
+lsvc = SVC()
 lsvc.fit(train_tfidf, train_labels)
 test_labels = lsvc.predict(test_tfidf)
 #print(test_labels)
