@@ -10,13 +10,10 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.pipeline import Pipeline
 from nltk.stem import WordNetLemmatizer
 import emoji
+from spellchecker import SpellChecker
+from textblob import TextBlob
 
 
-#parse testing data (id for submission)
-# def convert_emoticons(text):
-#     for emot in EMOTICONS:
-#         text = re.sub(u'('+emot+')', "_".join(EMOTICONS[emot].replace(",","").split()), text)
-#     return text
 
 train_labels = []
 train_responses = []
@@ -57,11 +54,15 @@ stop_words.add('<URL>')
 stop_words.add('@USER')
 ps = PorterStemmer()
 lemmatizer = WordNetLemmatizer()
+#spell = SpellChecker()
+
 
 #print(train_contexts[0], len(train_contexts[0][0]))
 for i, response in enumerate(train_responses):
     resp = []
     for j, word in enumerate(response):
+        # textb = TextBlob(word)
+        # word = str(textb.correct())
         if word in stop_words:
             continue
         word = word.replace('#', '')
@@ -76,6 +77,8 @@ for i, context_list in enumerate(train_contexts):
     for j, context in enumerate(context_list):
         context_l = []
         for k, word in enumerate(context):
+            # textb = TextBlob(word)
+            # word = str(textb.correct())
             if word in stop_words:
                 continue
             word = word.replace('#', '')
@@ -94,6 +97,8 @@ for i, context_list in enumerate(train_contexts):
 for i, response in enumerate(test_responses):
     resp = []
     for j, word in enumerate(response):
+        # textb = TextBlob(word)
+        # word = str(textb.correct())
         if word in stop_words:
             continue
         word = word.replace('#', '')
@@ -108,6 +113,8 @@ for i, context_list in enumerate(test_contexts):
     for j, context in enumerate(context_list):
         context_l = []
         for k, word in enumerate(context):
+            # textb = TextBlob(word)
+            # word = str(textb.correct())
             if word in stop_words:
                 continue
             word = word.replace('#', '')
@@ -129,19 +136,20 @@ test_tfidf = tv.transform(test_responses).toarray()
 # estimators = [('normalize', StandardScaler()), ('svm', SVC())]
 # lsvc = Pipeline(estimators)
 
-lsvc = SVC()
-lsvc.fit(train_tfidf, train_labels)
-test_labels = lsvc.predict(test_tfidf)
+ #print(train_responses[0])
+# lsvc = SVC()
+# lsvc.fit(train_tfidf, train_labels)
+# test_labels = lsvc.predict(test_tfidf)
 #print(test_labels)
 
-# print(train_responses[0])
-# train_tfidf = np.array(train_tfidf)
-# test_tfidf = np.array(test_tfidf)
-# train_tfidf = train_tfidf.astype(np.float64)
-# test_tfidf = test_tfidf.astype(np.float64)
-# clf = MultinomialNB(alpha=2.2, fit_prior=False)
-# clf.fit(train_tfidf, train_labels)
-# test_labels = clf.predict(test_tfidf)
+
+train_tfidf = np.array(train_tfidf)
+test_tfidf = np.array(test_tfidf)
+train_tfidf = train_tfidf.astype(np.float64)
+test_tfidf = test_tfidf.astype(np.float64)
+clf = MultinomialNB(alpha=2.2, fit_prior=False)
+clf.fit(train_tfidf, train_labels)
+test_labels = clf.predict(test_tfidf)
 
 
 #output test labels to test file
