@@ -60,6 +60,8 @@ lemmatizer = WordNetLemmatizer()
 for i, response in enumerate(train_responses):
     resp = []
     for j, word in enumerate(response):
+        if word in stop_words or word == '<URL>':
+            continue
         word = ps.stem(word.lower())
         word = lemmatizer.lemmatize(word)
         if word not in stop_words and word != '<URL>' :
@@ -71,7 +73,10 @@ for i, context_list in enumerate(train_contexts):
     for j, context in enumerate(context_list):
         context_l = []
         for k, word in enumerate(context):
+            if word in stop_words or word == '<URL>':
+                continue
             word = ps.stem(word.lower())
+            word = lemmatizer.lemmatize(word)
             if word not in stop_words and word != '<URL>' :
                 context_l.append(word)
         context_list[j] = context_l
@@ -85,7 +90,10 @@ for i, context_list in enumerate(train_contexts):
 for i, response in enumerate(test_responses):
     resp = []
     for j, word in enumerate(response):
+        if word in stop_words or word == '<URL>':
+            continue
         word = ps.stem(word.lower())
+        word = lemmatizer.lemmatize(word)
         if word not in stop_words and word != '<URL>':
             resp.append(word)
     test_responses[i] = ' '.join(resp)
@@ -95,7 +103,10 @@ for i, context_list in enumerate(test_contexts):
     for j, context in enumerate(context_list):
         context_l = []
         for k, word in enumerate(context):
+            if word in stop_words or word == '<URL>':
+                continue
             word = ps.stem(word.lower())
+            word = lemmatizer.lemmatize(word)
             if word not in stop_words and word != '<URL>':
                 context_l.append(word)
         context_list[j] = context_l
