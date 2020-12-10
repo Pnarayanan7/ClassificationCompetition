@@ -194,8 +194,7 @@ train_labels_bin = [1 if label == 'SARCASM' else 0 for label in train_labels]
 # print(best_parameters)
 
 
-#lsvc = SVC(tol=0.007, gamma=1.9, degree=26, coef0=4.8, C=11)
-lsvc = SVC()
+lsvc = SVC(tol=0.007, gamma=1.9, degree=26, coef0=4.8, C=11)
 lsvc.fit(train_tfidf, train_labels)
 test_labels = lsvc.predict(test_tfidf)
 #print(test_labels)
