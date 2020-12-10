@@ -160,7 +160,7 @@ for i in range(len(test_responses)):
 tv = TfidfVectorizer(max_features = 5000)
 train_tfidf = tv.fit_transform(train_context_responses).toarray()
 test_tfidf = tv.transform(test_context_responses).toarray()
-print(test_tfidf[0], type(test_tfidf[0]))
+#print(test_tfidf[0], type(test_tfidf[0]))
 
 
 
@@ -171,9 +171,9 @@ print(test_tfidf[0], type(test_tfidf[0]))
 
 #SVM!!!!!
  #print(train_responses[0])
-# lsvc = SVC()
-# train_labels_bin = [1 if label == 'SARCASM' else 0 for label in train_labels]
-#
+lsvc = SVC()
+train_labels_bin = [1 if label == 'SARCASM' else 0 for label in train_labels]
+
 # grid_param = {
 #     'C':            np.arange( 1, 100+1, 1).tolist(),
 #     'kernel':       ['linear', 'rbf'],                   # precomputed,'poly', 'sigmoid'
@@ -190,9 +190,9 @@ print(test_tfidf[0], type(test_tfidf[0]))
 # print(best_parameters)
 
 
-#lsvc = SVC(tol=0.007, gamma=1.9, degree=26, coef0=4.8, C=11)
-#lsvc.fit(train_tfidf, train_labels)
-#test_labels = lsvc.predict(test_tfidf)
+lsvc = SVC(tol=0.007, gamma=1.9, degree=26, coef0=4.8, C=11)
+lsvc.fit(train_tfidf, train_labels)
+test_labels = lsvc.predict(test_tfidf)
 #print(test_labels)
 
 #BAYES!!!
@@ -208,16 +208,16 @@ print(test_tfidf[0], type(test_tfidf[0]))
 # 'var_smoothing': [9e-11, 9.2e-11, 9.4e-11, 9.6e-11, 9.8e-11, 1e-10]
 #}
 
-train_labels_bin = [1 if label == 'SARCASM' else 0 for label in train_labels]
+#train_labels_bin = [1 if label == 'SARCASM' else 0 for label in train_labels]
 
-train_tfidf = np.array(train_tfidf)
-test_tfidf = np.array(test_tfidf)
-train_tfidf = train_tfidf.astype(np.float64)
-test_tfidf = test_tfidf.astype(np.float64)
+#train_tfidf = np.array(train_tfidf)
+#test_tfidf = np.array(test_tfidf)
+#train_tfidf = train_tfidf.astype(np.float64)
+#test_tfidf = test_tfidf.astype(np.float64)
 #clf = MultinomialNB(alpha = 2.7, fit_prior=True)
-clf = GaussianNB(var_smoothing = 1e-10)
-clf.fit(train_tfidf, train_labels)
-test_labels = clf.predict(test_tfidf)
+#clf = GaussianNB(var_smoothing = 1e-10)
+#clf.fit(train_tfidf, train_labels)
+#test_labels = clf.predict(test_tfidf)
 
 #gd_sr = GridSearchCV(estimator=clf,
 #                  param_grid=grid_param,
