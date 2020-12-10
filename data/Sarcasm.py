@@ -151,9 +151,9 @@ test_tfidf = tv.transform(test_responses).toarray()
 
 #SVM!!!!!
  #print(train_responses[0])
-# lsvc = SVC()
-# lsvc.fit(train_tfidf, train_labels)
-# test_labels = lsvc.predict(test_tfidf)
+lsvc = SVC()
+lsvc.fit(train_tfidf, train_labels)
+test_labels = lsvc.predict(test_tfidf)
 #print(test_labels)
 
 #BAYES!!!
@@ -191,11 +191,11 @@ test_tfidf = tv.transform(test_responses).toarray()
 # test_labels = clf.predict(test_tfidf)
 
 #KNearest Neighbors
-train_tfidf = np.array(train_tfidf)
-test_tfidf = np.array(test_tfidf)
-clf = KNeighborsClassifier(n_neighbors=3)
-clf.fit(train_tfidf, train_labels)
-test_labels = clf.predict(test_tfidf)
+# train_tfidf = np.array(train_tfidf)
+# test_tfidf = np.array(test_tfidf)
+# clf = KNeighborsClassifier(n_neighbors=3)
+# clf.fit(train_tfidf, train_labels)
+# test_labels = clf.predict(test_tfidf)
 
 
 #output test labels to test file
