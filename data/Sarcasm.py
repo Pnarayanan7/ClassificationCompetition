@@ -15,7 +15,7 @@ from nltk.stem import WordNetLemmatizer
 import emoji
 from nltk.corpus import wordnet
 from sklearn.model_selection import RandomizedSearchCV
-#from sklearn.model_selection import GridSearchCV
+from sklearn.model_selection import GridSearchCV
 
 # from spellchecker import SpellChecker
 # from textblob import TextBlob
@@ -187,40 +187,43 @@ test_tfidf = tv.transform(test_context_responses).toarray()
 # print(best_parameters)
 
 
-lsvc = SVC(tol=0.007, gamma=1.9, degree=26, coef0=4.8, C=11)
-lsvc.fit(train_tfidf, train_labels)
-test_labels = lsvc.predict(test_tfidf)
+#lsvc = SVC(tol=0.007, gamma=1.9, degree=26, coef0=4.8, C=11)
+#lsvc.fit(train_tfidf, train_labels)
+#test_labels = lsvc.predict(test_tfidf)
 #print(test_labels)
 
 #BAYES!!!
-# grid_param = {
-#     'alpha': [0.5, 0.6, 0.7, 0.8, 0.9, 1.0, 1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 1.7, 1.8, 1.9, 2.0, 2.1, 2.2, 2.3, 2.4, 2.5, 2.6, 2.7, 2.8, 2.9, 3.0, 3.1, 3.2, 3.3, 3.4, 3.5],
-#     'fit_prior': [True, False]
-# }
+grid_param = {
+ 'alpha': [0.5, 0.6, 0.7, 0.8, 0.9, 1.0, 1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 1.7, 1.8, 1.9, 2.0, 2.1, 2.2, 2.3, 2.4, 2.5, 2.6, 2.7, 2.8, 2.9, 3.0, 3.1, 3.2, 3.3, 3.4, 3.5],
+ 'fit_prior': [True, False]
+}
 
-# grid_param = {
-#     'var_smoothing': [1e-12, 1e-11, 1e-10, 1e-9, 1e-8, 1e-7, 1e-6, 1e-5, 1e-4]
-# }
+grid_param = {
+ 'var_smoothing': [1e-15,1e-14, 1e-13, 1e-12, 1e-11, 1e-10, 1e-9, 1e-8, 1e-7, 1e-6, 1e-5, 1e-4]
+}
 
-# train_tfidf = np.array(train_tfidf)
-# test_tfidf = np.array(test_tfidf)
-# train_tfidf = train_tfidf.astype(np.float64)
-# test_tfidf = test_tfidf.astype(np.float64)
+train_labels_bin = [1 if label == 'SARCASM' else 0 for label in train_labels]
+
+train_tfidf = np.array(train_tfidf)
+test_tfidf = np.array(test_tfidf)
+train_tfidf = train_tfidf.astype(np.float64)
+test_tfidf = test_tfidf.astype(np.float64)
 # clf = MultinomialNB(alpha=1.9, fit_prior=True)
-# clf = GaussianNB(var_smoothing=1e-12)
-# clf.fit(train_tfidf, train_labels)
-# test_labels = clf.predict(test_tfidf)
+clf = GaussianNB(var_smoothing = 1e-10)
+clf.fit(train_tfidf, train_labels)
+test_labels = clf.predict(test_tfidf)
 
-# gd_sr = GridSearchCV(estimator=clf,
-#                      param_grid=grid_param,
-#                      scoring='f1',
-#                      cv=2,
-#                      n_jobs=-1)
+#print(train_tfidf)
+#gd_sr = GridSearchCV(estimator=clf,
+#                  param_grid=grid_param,
+#                  scoring='f1',
+#                  cv=2,
+#                  n_jobs=-1)
 
-# gd_sr.fit(train_tfidf, binary_train_labels)
+#gd_sr.fit(train_tfidf, train_labels_bin)
 
-# best_parameters = gd_sr.best_params_
-# print(best_parameters)
+#best_parameters = gd_sr.best_params_
+#print(best_parameters)
 
 #RANDOM FOREST!!!
 # train_tfidf = np.array(train_tfidf)
@@ -246,4 +249,3 @@ with open('answer.txt', 'w') as out_file:
         out_file.write(',')
         out_file.write(test_labels[idx])
         out_file.write('\n')
- 
