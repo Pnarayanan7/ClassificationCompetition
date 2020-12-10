@@ -84,8 +84,8 @@ for i, response in enumerate(train_responses):
         word = word.replace('#', '')
         if word in stop_words:
             continue
-        word = ps.stem(word.lower())
-#        word = lemmatizer.lemmatize(word)
+#        word = ps.stem(word.lower())
+        word = lemmatizer.lemmatize(word)
         if word not in stop_words:
             resp.append(word)
     train_responses[i] = ' '.join(resp)
@@ -100,8 +100,8 @@ for i, context_list in enumerate(train_contexts):
             word = word.replace('#', '')
             if word in stop_words:
                 continue
-            word = ps.stem(word.lower())
-#            word = lemmatizer.lemmatize(word)
+#            word = ps.stem(word.lower())
+            word = lemmatizer.lemmatize(word)
             if word not in stop_words:
                 context_l.append(word)
         context_list[j] = ' '.join(context_l)
@@ -121,8 +121,8 @@ for i, response in enumerate(test_responses):
         word = word.replace('#', '')
         if word in stop_words:
             continue
-        word = ps.stem(word.lower())
-#        word = lemmatizer.lemmatize(word)
+#        word = ps.stem(word.lower())
+        word = lemmatizer.lemmatize(word)
         if word not in stop_words:
             resp.append(word)
     test_responses[i] = ' '.join(resp)
@@ -137,8 +137,8 @@ for i, context_list in enumerate(test_contexts):
             word = word.replace('#', '')
             if word in stop_words:
                 continue
-            word = ps.stem(word.lower())
-#            word = lemmatizer.lemmatize(word)
+#            word = ps.stem(word.lower())
+            word = lemmatizer.lemmatize(word)
             if word not in stop_words:
                 context_l.append(word)
         context_list[j] = ' '.join(context_l)
@@ -158,8 +158,8 @@ for i in range(len(test_responses)):
 
 #use one of the sklearn classifiers to train and then label test data (SVM)
 tv = TfidfVectorizer(max_features = 5000)
-train_tfidf = tv.fit_transform(train_context_responses).toarray()
-test_tfidf = tv.transform(test_context_responses).toarray()
+train_tfidf = tv.fit_transform(train_responses).toarray()
+test_tfidf = tv.transform(test_responses).toarray()
 print(test_tfidf[0], type(test_tfidf[0]))
 
 
