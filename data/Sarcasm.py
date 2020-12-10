@@ -85,7 +85,7 @@ for i, response in enumerate(train_responses):
         if word in stop_words:
             continue
         word = lemmatizer.lemmatize(word)
-        word = word.lower()
+#        word = word.lower()
 #        word = ps.stem(word)
         if word not in stop_words:
             resp.append(word)
@@ -102,7 +102,7 @@ for i, context_list in enumerate(train_contexts):
             if word in stop_words:
                 continue
             word = lemmatizer.lemmatize(word)
-            word = word.lower()
+#            word = word.lower()
 #            word = ps.stem(word)
             if word not in stop_words:
                 context_l.append(word)
@@ -124,7 +124,7 @@ for i, response in enumerate(test_responses):
         if word in stop_words:
             continue
         word = lemmatizer.lemmatize(word)
-        word = word.lower()
+#        word = word.lower()
 #        word = ps.stem(word)
         if word not in stop_words:
             resp.append(word)
@@ -141,7 +141,7 @@ for i, context_list in enumerate(test_contexts):
             if word in stop_words:
                 continue
             word = lemmatizer.lemmatize(word)
-            word = word.lower()
+#            word = word.lower()
 #            word = ps.stem(word)
             if word not in stop_words:
                 context_l.append(word)
