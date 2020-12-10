@@ -106,6 +106,7 @@ for i, context_list in enumerate(train_contexts):
                 context_l.append(word)
         context_list[j] = ' '.join(context_l)
     train_contexts[i] = ' '.join(context_list)
+    train_contexts[i] = emoji.demojize(train_contexts[i])
 
 #print(train_contexts[0], len(train_contexts[0][0]))
 
@@ -142,6 +143,7 @@ for i, context_list in enumerate(test_contexts):
                 context_l.append(word)
         context_list[j] = ' '.join(context_l)
     test_contexts[i] = ' '.join(context_list)
+    test_contexts[i] = emoji.demojize(test_contexts[i])
 
 #print(test_contexts[0], len(test_contexts[0][0]))
 train_context_responses = ['' for i in range(len(train_responses))]
