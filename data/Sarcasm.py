@@ -81,7 +81,7 @@ for i, response in enumerate(train_responses):
     for j, word in enumerate(response):
         # textb = TextBlob(word)
         # word = str(textb.correct())
-        word = word.replace('#', '')
+#        word = word.replace('#', '')
         if word in stop_words:
             continue
         word = lemmatizer.lemmatize(word)
@@ -98,7 +98,7 @@ for i, context_list in enumerate(train_contexts):
         for k, word in enumerate(context):
             # textb = TextBlob(word)
             # word = str(textb.correct())
-            word = word.replace('#', '')
+#            word = word.replace('#', '')
             if word in stop_words:
                 continue
             word = lemmatizer.lemmatize(word)
@@ -120,7 +120,7 @@ for i, response in enumerate(test_responses):
     for j, word in enumerate(response):
         # textb = TextBlob(word)
         # word = str(textb.correct())
-        word = word.replace('#', '')
+#        word = word.replace('#', '')
         if word in stop_words:
             continue
         word = lemmatizer.lemmatize(word)
@@ -137,7 +137,7 @@ for i, context_list in enumerate(test_contexts):
         for k, word in enumerate(context):
             # textb = TextBlob(word)
             # word = str(textb.correct())
-            word = word.replace('#', '')
+#            word = word.replace('#', '')
             if word in stop_words:
                 continue
             word = lemmatizer.lemmatize(word)
