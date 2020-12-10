@@ -81,9 +81,9 @@ for i, response in enumerate(train_responses):
     for j, word in enumerate(response):
         # textb = TextBlob(word)
         # word = str(textb.correct())
+        word = word.replace('#', '')
         if word in stop_words:
             continue
-        word = word.replace('#', '')
         word = ps.stem(word.lower())
         word = lemmatizer.lemmatize(word)
         if word not in stop_words:
@@ -97,9 +97,9 @@ for i, context_list in enumerate(train_contexts):
         for k, word in enumerate(context):
             # textb = TextBlob(word)
             # word = str(textb.correct())
+            word = word.replace('#', '')
             if word in stop_words:
                 continue
-            word = word.replace('#', '')
             word = ps.stem(word.lower())
             word = lemmatizer.lemmatize(word)
             if word not in stop_words:
@@ -118,9 +118,9 @@ for i, response in enumerate(test_responses):
     for j, word in enumerate(response):
         # textb = TextBlob(word)
         # word = str(textb.correct())
+        word = word.replace('#', '')
         if word in stop_words:
             continue
-        word = word.replace('#', '')
         word = ps.stem(word.lower())
         word = lemmatizer.lemmatize(word)
         if word not in stop_words:
@@ -134,9 +134,9 @@ for i, context_list in enumerate(test_contexts):
         for k, word in enumerate(context):
             # textb = TextBlob(word)
             # word = str(textb.correct())
+            word = word.replace('#', '')
             if word in stop_words:
                 continue
-            word = word.replace('#', '')
             word = ps.stem(word.lower())
             word = lemmatizer.lemmatize(word)
             if word not in stop_words:
@@ -154,10 +154,13 @@ for i in range(len(train_responses)):
 for i in range(len(test_responses)):
     test_context_responses[i] += test_responses[i] + test_contexts[i]
 
+#print(test_context_responses[0], type(test_context_responses[0]))
+
 #use one of the sklearn classifiers to train and then label test data (SVM)
 tv = TfidfVectorizer(max_features = 5000)
 train_tfidf = tv.fit_transform(train_context_responses).toarray()
 test_tfidf = tv.transform(test_context_responses).toarray()
+print(test_tfidf[0], type(test_tfidf[0]))
 
 
 
@@ -193,10 +196,10 @@ test_tfidf = tv.transform(test_context_responses).toarray()
 #print(test_labels)
 
 #BAYES!!!
-grid_param = {
- 'alpha': [0.5, 0.6, 0.7, 0.8, 0.9, 1.0, 1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 1.7, 1.8, 1.9, 2.0, 2.1, 2.2, 2.3, 2.4, 2.5, 2.6, 2.7, 2.8, 2.9, 3.0, 3.1, 3.2, 3.3, 3.4, 3.5],
- 'fit_prior': [True, False]
-}
+#grid_param = {
+# 'alpha': [0.5, 0.6, 0.7, 0.8, 0.9, 1.0, 1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 1.7, 1.8, 1.9, 2.0, 2.1, 2.2, 2.3, 2.4, 2.5, 2.6, 2.7, 2.8, 2.9, 3.0, 3.1, 3.2, 3.3, 3.4, 3.5],
+# 'fit_prior': [True, False]
+#}
 
 #grid_param = {
 # 'var_smoothing': [1e-15, 1e-14, 1e-13, 1e-12, 1e-11, 1e-10, 1e-9, 1e-8, 1e-7, 1e-6, 1e-5, 1e-4]
