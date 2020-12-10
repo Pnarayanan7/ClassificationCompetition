@@ -11,6 +11,9 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.pipeline import Pipeline
 from nltk.stem import WordNetLemmatizer
 import emoji
+
+from sklearn.metrics import f1_score
+from sklearn.model_selection import GridSearchCV
 #from spellchecker import SpellChecker
 #from textblob import TextBlob
 
@@ -29,24 +32,31 @@ test_ids = []
 #tokenize response (if necessary do with context)
 with jsonlines.open('train.jsonl') as f:
   for line in f.iter():
-      train_labels.append(line['label'])
-      train_responses.append(line['response'].split())
-      train_contexts.append(line['context'])
+    train_labels.append(line['label'])
+    train_responses.append(line['response'].split())
+    train_contexts.append(line['context'])
 
 with jsonlines.open('test.jsonl') as f:
   for line in f.iter():
-      test_responses.append(line['response'].split())
-      test_contexts.append(line['context'])
-      test_ids.append(line['id'])
+    test_responses.append(line['response'].split())
+    test_contexts.append(line['context'])
+    test_ids.append(line['id'])
 
+binary_train_labels = []
+
+for label in train_labels:
+    if (label == "NOT_SARCASM"):
+        binary_train_labels.append(0)
+    if (label == "SARCASM"):
+        binary_train_labels.append(1)
 
 for context_list in train_contexts:
     for idx, context in enumerate(context_list):
-         context_list[idx] = context.split()
+        context_list[idx] = context.split()
 
 for context_list in test_contexts:
     for idx, context in enumerate(context_list):
-         context_list[idx] = context.split()
+        context_list[idx] = context.split()
 
 #get rid of stop words
 #stemming
@@ -145,25 +155,39 @@ test_tfidf = tv.transform(test_responses).toarray()
 # test_labels = lsvc.predict(test_tfidf)
 #print(test_labels)
 
-
 #BAYES!!!
-# train_tfidf = np.array(train_tfidf)
-# test_tfidf = np.array(test_tfidf)
-# train_tfidf = train_tfidf.astype(np.float64)
-# test_tfidf = test_tfidf.astype(np.float64)
-# clf = MultinomialNB(alpha=2.2, fit_prior=False)
-# clf.fit(train_tfidf, train_labels)
-# test_labels = clf.predict(test_tfidf)
+# grid_param = {
+#     'alpha': [0.5, 0.6, 0.7, 0.8, 0.9, 1.0, 1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 1.7, 1.8, 1.9, 2.0],
+#     'fit_prior': [True, False]
+# }
 
-#RANDOM FOREST!!!
 train_tfidf = np.array(train_tfidf)
 test_tfidf = np.array(test_tfidf)
- # train_tfidf = train_tfidf.astype(np.float64)
- # test_tfidf = test_tfidf.astype(np.float64)
-clf = RandomForestClassifier()
+train_tfidf = train_tfidf.astype(np.float64)
+test_tfidf = test_tfidf.astype(np.float64)
+clf = MultinomialNB(alpha=1.5, fit_prior=True)
 clf.fit(train_tfidf, train_labels)
 test_labels = clf.predict(test_tfidf)
 
+# gd_sr = GridSearchCV(estimator=clf,
+#                      param_grid=grid_param,
+#                      scoring='f1',
+#                      cv=2,
+#                      n_jobs=-1)
+
+# gd_sr.fit(train_tfidf, binary_train_labels)
+
+# best_parameters = gd_sr.best_params_
+# print(best_parameters)
+
+#RANDOM FOREST!!!
+# train_tfidf = np.array(train_tfidf)
+# test_tfidf = np.array(test_tfidf)
+ # train_tfidf = train_tfidf.astype(np.float64)
+ # test_tfidf = test_tfidf.astype(np.float64)
+# clf = RandomForestClassifier()
+# clf.fit(train_tfidf, train_labels)
+# test_labels = clf.predict(test_tfidf)
 
 
 
