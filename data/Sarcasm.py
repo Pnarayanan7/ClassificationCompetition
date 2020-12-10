@@ -198,9 +198,12 @@ grid_param = {
  'fit_prior': [True, False]
 }
 
-grid_param = {
- 'var_smoothing': [1e-15,1e-14, 1e-13, 1e-12, 1e-11, 1e-10, 1e-9, 1e-8, 1e-7, 1e-6, 1e-5, 1e-4]
-}
+#grid_param = {
+# 'var_smoothing': [1e-15, 1e-14, 1e-13, 1e-12, 1e-11, 1e-10, 1e-9, 1e-8, 1e-7, 1e-6, 1e-5, 1e-4]
+#}
+#grid_param = {
+# 'var_smoothing': [9e-11, 9.2e-11, 9.4e-11, 9.6e-11, 9.8e-11, 1e-10]
+#}
 
 train_labels_bin = [1 if label == 'SARCASM' else 0 for label in train_labels]
 
@@ -208,20 +211,19 @@ train_tfidf = np.array(train_tfidf)
 test_tfidf = np.array(test_tfidf)
 train_tfidf = train_tfidf.astype(np.float64)
 test_tfidf = test_tfidf.astype(np.float64)
-# clf = MultinomialNB(alpha=1.9, fit_prior=True)
-clf = GaussianNB(var_smoothing = 1e-10)
+clf = MultinomialNB(alpha = 2.7, fit_prior=True)
+#clf = GaussianNB(var_smoothing = 1e-10)
 clf.fit(train_tfidf, train_labels)
 test_labels = clf.predict(test_tfidf)
 
-#print(train_tfidf)
 #gd_sr = GridSearchCV(estimator=clf,
 #                  param_grid=grid_param,
 #                  scoring='f1',
 #                  cv=2,
 #                  n_jobs=-1)
-
+#
 #gd_sr.fit(train_tfidf, train_labels_bin)
-
+#
 #best_parameters = gd_sr.best_params_
 #print(best_parameters)
 
