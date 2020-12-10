@@ -162,13 +162,18 @@ test_labels = lsvc.predict(test_tfidf)
 #     'fit_prior': [True, False]
 # }
 
-# train_tfidf = np.array(train_tfidf)
-# test_tfidf = np.array(test_tfidf)
-# train_tfidf = train_tfidf.astype(np.float64)
-# test_tfidf = test_tfidf.astype(np.float64)
+# grid_param = {
+#     'var_smoothing': [1e-12, 1e-11, 1e-10, 1e-9, 1e-8, 1e-7, 1e-6, 1e-5, 1e-4]
+# }
+
+train_tfidf = np.array(train_tfidf)
+test_tfidf = np.array(test_tfidf)
+train_tfidf = train_tfidf.astype(np.float64)
+test_tfidf = test_tfidf.astype(np.float64)
 # clf = MultinomialNB(alpha=1.9, fit_prior=True)
-# clf.fit(train_tfidf, train_labels)
-# test_labels = clf.predict(test_tfidf)
+clf = GaussianNB(var_smoothing=1e-12)
+clf.fit(train_tfidf, train_labels)
+test_labels = clf.predict(test_tfidf)
 
 # gd_sr = GridSearchCV(estimator=clf,
 #                      param_grid=grid_param,
