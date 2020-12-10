@@ -90,7 +90,7 @@ for i, response in enumerate(train_responses):
         if word not in stop_words:
             resp.append(word)
     train_responses[i] = ' '.join(resp)
-#    train_responses[i] = emoji.demojize(train_responses[i])
+    train_responses[i] = emoji.demojize(train_responses[i])
 
 for i, context_list in enumerate(train_contexts):
     for j, context in enumerate(context_list):
@@ -108,7 +108,7 @@ for i, context_list in enumerate(train_contexts):
                 context_l.append(word)
         context_list[j] = ' '.join(context_l)
     train_contexts[i] = ' '.join(context_list)
-#    train_contexts[i] = emoji.demojize(train_contexts[i])
+    train_contexts[i] = emoji.demojize(train_contexts[i])
 
 #print(train_contexts[0], len(train_contexts[0][0]))
 
@@ -129,7 +129,7 @@ for i, response in enumerate(test_responses):
         if word not in stop_words:
             resp.append(word)
     test_responses[i] = ' '.join(resp)
-#    test_responses[i] = emoji.demojize(test_responses[i])
+    test_responses[i] = emoji.demojize(test_responses[i])
 
 for i, context_list in enumerate(test_contexts):
     for j, context in enumerate(context_list):
@@ -147,7 +147,7 @@ for i, context_list in enumerate(test_contexts):
                 context_l.append(word)
         context_list[j] = ' '.join(context_l)
     test_contexts[i] = ' '.join(context_list)
-#    test_contexts[i] = emoji.demojize(test_contexts[i])
+    test_contexts[i] = emoji.demojize(test_contexts[i])
 
 #print(test_contexts[0], len(test_contexts[0][0]))
 train_context_responses = ['' for i in range(len(train_responses))]
@@ -194,7 +194,8 @@ train_labels_bin = [1 if label == 'SARCASM' else 0 for label in train_labels]
 # print(best_parameters)
 
 
-lsvc = SVC(tol=0.007, gamma=1.9, degree=26, coef0=4.8, C=11)
+#lsvc = SVC(tol=0.007, gamma=1.9, degree=26, coef0=4.8, C=11)
+lsvc = SVC()
 lsvc.fit(train_tfidf, train_labels)
 test_labels = lsvc.predict(test_tfidf)
 #print(test_labels)
