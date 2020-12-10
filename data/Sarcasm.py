@@ -1,5 +1,6 @@
 import jsonlines
 import numpy as np
+import nltk
 from tokenize import tokenize
 from nltk.corpus import stopwords
 from nltk.stem.porter import PorterStemmer
@@ -11,9 +12,23 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.pipeline import Pipeline
 from nltk.stem import WordNetLemmatizer
 import emoji
-from spellchecker import SpellChecker
-from textblob import TextBlob
+from nltk.corpus import wordnet
+from sklearn.model_selection import RandomizedSearchCV
+#from sklearn.model_selection import GridSearchCV
 
+# from spellchecker import SpellChecker
+# from textblob import TextBlob
+
+def get_wordnet_pos(word):
+    """Map POS tag to first character lemmatize() accepts"""
+    tag = nltk.pos_tag([word])[0][1]
+    # tag_dict = {"J": wordnet.ADJ,
+    #             "N": wordnet.NOUN,
+    #             "V": wordnet.VERB,
+    #             "R": wordnet.ADV}
+
+    #return tag_dict[tag]
+    return tag
 
 
 train_labels = []
@@ -141,8 +156,27 @@ test_tfidf = tv.transform(test_responses).toarray()
 #SVM!!!!!
  #print(train_responses[0])
 # lsvc = SVC()
-# lsvc.fit(train_tfidf, train_labels)
-# test_labels = lsvc.predict(test_tfidf)
+# train_labels_bin = [1 if label == 'SARCASM' else 0 for label in train_labels]
+#
+# grid_param = {
+#     'C':            np.arange( 1, 100+1, 1).tolist(),
+#     'kernel':       ['linear', 'rbf'],                   # precomputed,'poly', 'sigmoid'
+#     'degree':       np.arange( 0, 100+0, 1).tolist(),
+#     'gamma':        np.arange( 0.0, 10.0+0.0, 0.1 ).tolist(),
+#     'coef0': np.arange( 0.0, 10.0+0.0, 0.1 ).tolist(),
+#     'tol': np.arange( 0.001, 0.01+0.001, 0.001 ).tolist(),
+#     }
+#
+#
+# gd_sr = RandomizedSearchCV(lsvc, grid_param, random_state=0)
+# gd_sr.fit(train_tfidf, train_labels_bin)
+# best_parameters = gd_sr.best_params_
+# print(best_parameters)
+
+
+lsvc = SVC(tol=0.007, gamma=1.9, degree=26, coef0=4.8, C=11)
+lsvc.fit(train_tfidf, train_labels)
+test_labels = lsvc.predict(test_tfidf)
 #print(test_labels)
 
 
@@ -156,13 +190,11 @@ test_tfidf = tv.transform(test_responses).toarray()
 # test_labels = clf.predict(test_tfidf)
 
 #RANDOM FOREST!!!
-train_tfidf = np.array(train_tfidf)
-test_tfidf = np.array(test_tfidf)
- # train_tfidf = train_tfidf.astype(np.float64)
- # test_tfidf = test_tfidf.astype(np.float64)
-clf = RandomForestClassifier()
-clf.fit(train_tfidf, train_labels)
-test_labels = clf.predict(test_tfidf)
+# train_tfidf = np.array(train_tfidf)
+# test_tfidf = np.array(test_tfidf)
+# clf = RandomForestClassifier()
+# clf.fit(train_tfidf, train_labels)
+# test_labels = clf.predict(test_tfidf)
 
 
 
