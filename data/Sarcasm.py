@@ -11,8 +11,8 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.pipeline import Pipeline
 from nltk.stem import WordNetLemmatizer
 import emoji
-from spellchecker import SpellChecker
-from textblob import TextBlob
+#from spellchecker import SpellChecker
+#from textblob import TextBlob
 
 
 
