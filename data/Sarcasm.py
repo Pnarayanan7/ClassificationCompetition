@@ -104,8 +104,8 @@ for i, context_list in enumerate(train_contexts):
             word = lemmatizer.lemmatize(word)
             if word not in stop_words:
                 context_l.append(word)
-        context_list[j] = context_l
-    train_contexts[i] = context_list
+        context_list[j] = ' '.join(context_l)
+    train_contexts[i] = ' '.join(context_list)
 
 #print(train_contexts[0], len(train_contexts[0][0]))
 
@@ -140,15 +140,24 @@ for i, context_list in enumerate(test_contexts):
             word = lemmatizer.lemmatize(word)
             if word not in stop_words:
                 context_l.append(word)
-        context_list[j] = context_l
-    test_contexts[i] = context_list
+        context_list[j] = ' '.join(context_l)
+    test_contexts[i] = ' '.join(context_list)
 
 #print(test_contexts[0], len(test_contexts[0][0]))
+train_context_responses = ['' for i in range(len(train_responses))]
+test_context_responses = ['' for i in range(len(test_responses))]
+for i in range(len(train_responses)):
+    train_context_responses[i] += train_responses[i] + train_contexts[i]
+
+for i in range(len(test_responses)):
+    test_context_responses[i] += test_responses[i] + test_contexts[i]
 
 #use one of the sklearn classifiers to train and then label test data (SVM)
 tv = TfidfVectorizer(max_features = 5000)
-train_tfidf = tv.fit_transform(train_responses).toarray()
-test_tfidf = tv.transform(test_responses).toarray()
+train_tfidf = tv.fit_transform(train_context_responses).toarray()
+test_tfidf = tv.transform(test_context_responses).toarray()
+
+
 
 
 # estimators = [('normalize', StandardScaler()), ('svm', SVC())]
