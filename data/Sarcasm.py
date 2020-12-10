@@ -86,7 +86,7 @@ for i, response in enumerate(train_responses):
             continue
         word = word.lower()
         word = lemmatizer.lemmatize(word)
-#        word = ps.stem(word)
+        word = ps.stem(word)
         if word not in stop_words:
             resp.append(word)
     train_responses[i] = ' '.join(resp)
@@ -103,7 +103,7 @@ for i, context_list in enumerate(train_contexts):
                 continue
             word = word.lower()
             word = lemmatizer.lemmatize(word)
-            #        word = ps.stem(word)
+            word = ps.stem(word)
             if word not in stop_words:
                 context_l.append(word)
         context_list[j] = ' '.join(context_l)
@@ -125,7 +125,7 @@ for i, response in enumerate(test_responses):
             continue
         word = word.lower()
         word = lemmatizer.lemmatize(word)
-        #        word = ps.stem(word)
+        word = ps.stem(word)
         if word not in stop_words:
             resp.append(word)
     test_responses[i] = ' '.join(resp)
@@ -142,7 +142,7 @@ for i, context_list in enumerate(test_contexts):
                 continue
             word = word.lower()
             word = lemmatizer.lemmatize(word)
-            #        word = ps.stem(word)
+            word = ps.stem(word)
             if word not in stop_words:
                 context_l.append(word)
         context_list[j] = ' '.join(context_l)
