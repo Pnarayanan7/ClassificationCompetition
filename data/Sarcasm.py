@@ -5,6 +5,7 @@ from nltk.corpus import stopwords
 from nltk.stem.porter import PorterStemmer
 from sklearn.svm import LinearSVC, SVC
 from sklearn.naive_bayes import GaussianNB, MultinomialNB
+from sklearn.neighbors import KNeighborsClassifier
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.preprocessing import StandardScaler
@@ -156,18 +157,18 @@ test_tfidf = tv.transform(test_responses).toarray()
 #print(test_labels)
 
 #BAYES!!!
-grid_param = {
-    'alpha': [0.5, 0.6, 0.7, 0.8, 0.9, 1.0, 1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 1.7, 1.8, 1.9, 2.0, 2.1, 2.2, 2.3, 2.4, 2.5, 2.6, 2.7, 2.8, 2.9, 3.0, 3.1, 3.2, 3.3, 3.4, 3.5],
-    'fit_prior': [True, False]
-}
+# grid_param = {
+#     'alpha': [0.5, 0.6, 0.7, 0.8, 0.9, 1.0, 1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 1.7, 1.8, 1.9, 2.0, 2.1, 2.2, 2.3, 2.4, 2.5, 2.6, 2.7, 2.8, 2.9, 3.0, 3.1, 3.2, 3.3, 3.4, 3.5],
+#     'fit_prior': [True, False]
+# }
 
-train_tfidf = np.array(train_tfidf)
-test_tfidf = np.array(test_tfidf)
-train_tfidf = train_tfidf.astype(np.float64)
-test_tfidf = test_tfidf.astype(np.float64)
-clf = MultinomialNB(alpha=1.9, fit_prior=True)
-clf.fit(train_tfidf, train_labels)
-test_labels = clf.predict(test_tfidf)
+# train_tfidf = np.array(train_tfidf)
+# test_tfidf = np.array(test_tfidf)
+# train_tfidf = train_tfidf.astype(np.float64)
+# test_tfidf = test_tfidf.astype(np.float64)
+# clf = MultinomialNB(alpha=1.9, fit_prior=True)
+# clf.fit(train_tfidf, train_labels)
+# test_labels = clf.predict(test_tfidf)
 
 # gd_sr = GridSearchCV(estimator=clf,
 #                      param_grid=grid_param,
@@ -189,6 +190,12 @@ test_labels = clf.predict(test_tfidf)
 # clf.fit(train_tfidf, train_labels)
 # test_labels = clf.predict(test_tfidf)
 
+#KNearest Neighbors
+train_tfidf = np.array(train_tfidf)
+test_tfidf = np.array(test_tfidf)
+clf = KNeighborsClassifier(n_neighbors=3)
+clf.fit(train_tfidf, train_labels)
+test_labels = clf.predict(test_tfidf)
 
 
 #output test labels to test file
