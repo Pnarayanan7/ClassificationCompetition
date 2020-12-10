@@ -158,8 +158,8 @@ for i in range(len(test_responses)):
 
 #use one of the sklearn classifiers to train and then label test data (SVM)
 tv = TfidfVectorizer(max_features = 5000)
-train_tfidf = tv.fit_transform(train_responses).toarray()
-test_tfidf = tv.transform(test_responses).toarray()
+train_tfidf = tv.fit_transform(train_context_responses).toarray()
+test_tfidf = tv.transform(test_context_responses).toarray()
 print(test_tfidf[0], type(test_tfidf[0]))
 
 
@@ -214,8 +214,8 @@ train_tfidf = np.array(train_tfidf)
 test_tfidf = np.array(test_tfidf)
 train_tfidf = train_tfidf.astype(np.float64)
 test_tfidf = test_tfidf.astype(np.float64)
-clf = MultinomialNB(alpha = 2.7, fit_prior=True)
-#clf = GaussianNB(var_smoothing = 1e-10)
+#clf = MultinomialNB(alpha = 2.7, fit_prior=True)
+clf = GaussianNB(var_smoothing = 1e-10)
 clf.fit(train_tfidf, train_labels)
 test_labels = clf.predict(test_tfidf)
 
