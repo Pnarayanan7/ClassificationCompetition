@@ -55,13 +55,7 @@ with jsonlines.open('test.jsonl') as f:
     test_contexts.append(line['context'])
     test_ids.append(line['id'])
 
-binary_train_labels = []
 
-for label in train_labels:
-    if (label == "NOT_SARCASM"):
-        binary_train_labels.append(0)
-    if (label == "SARCASM"):
-        binary_train_labels.append(1)
 
 for context_list in train_contexts:
     for idx, context in enumerate(context_list):
