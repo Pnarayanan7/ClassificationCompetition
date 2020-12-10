@@ -246,3 +246,4 @@ with open('answer.txt', 'w') as out_file:
         out_file.write(',')
         out_file.write(test_labels[idx])
         out_file.write('\n')
+ 
