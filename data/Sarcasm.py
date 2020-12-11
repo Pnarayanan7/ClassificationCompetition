@@ -17,19 +17,6 @@ from nltk.corpus import wordnet
 from sklearn.model_selection import RandomizedSearchCV
 from sklearn.model_selection import GridSearchCV
 
-# from spellchecker import SpellChecker
-# from textblob import TextBlob
-
-def get_wordnet_pos(word):
-    """Map POS tag to first character lemmatize() accepts"""
-    tag = nltk.pos_tag([word])[0][1]
-    # tag_dict = {"J": wordnet.ADJ,
-    #             "N": wordnet.NOUN,
-    #             "V": wordnet.VERB,
-    #             "R": wordnet.ADV}
-
-    #return tag_dict[tag]
-    return tag
 
 
 train_labels = []
@@ -56,7 +43,6 @@ with jsonlines.open('test.jsonl') as f:
     test_ids.append(line['id'])
 
 
-
 for context_list in train_contexts:
     for idx, context in enumerate(context_list):
         context_list[idx] = context.split()
@@ -65,28 +51,20 @@ for context_list in test_contexts:
     for idx, context in enumerate(context_list):
         context_list[idx] = context.split()
 
-#get rid of stop words
-#stemming
+#for training data
+#get rid of stop words and tags
+#lemmatization
 stop_words = set(stopwords.words('english'))
 stop_words.add('<URL>')
 stop_words.add('@USER')
-ps = PorterStemmer()
 lemmatizer = WordNetLemmatizer()
-#spell = SpellChecker()
 
-
-#print(train_contexts[0], len(train_contexts[0][0]))
 for i, response in enumerate(train_responses):
     resp = []
     for j, word in enumerate(response):
-        # textb = TextBlob(word)
-        # word = str(textb.correct())
-#        word = word.replace('#', '')
         if word in stop_words:
             continue
         word = lemmatizer.lemmatize(word)
-#        word = word.lower()
-#        word = ps.stem(word)
         if word not in stop_words:
             resp.append(word)
     train_responses[i] = ' '.join(resp)
@@ -96,36 +74,26 @@ for i, context_list in enumerate(train_contexts):
     for j, context in enumerate(context_list):
         context_l = []
         for k, word in enumerate(context):
-            # textb = TextBlob(word)
-            # word = str(textb.correct())
-#            word = word.replace('#', '')
             if word in stop_words:
                 continue
             word = lemmatizer.lemmatize(word)
-#            word = word.lower()
-#            word = ps.stem(word)
             if word not in stop_words:
                 context_l.append(word)
         context_list[j] = ' '.join(context_l)
     train_contexts[i] = ' '.join(context_list)
     train_contexts[i] = emoji.demojize(train_contexts[i])
 
-#print(train_contexts[0], len(train_contexts[0][0]))
 
-#test data
 
-#print(test_contexts[0], len(test_contexts[0][0]))
+#for test data
+#gets rid of stop words and tags
+#lemmatization
 for i, response in enumerate(test_responses):
     resp = []
     for j, word in enumerate(response):
-        # textb = TextBlob(word)
-        # word = str(textb.correct())
-#        word = word.replace('#', '')
         if word in stop_words:
             continue
         word = lemmatizer.lemmatize(word)
-#        word = word.lower()
-#        word = ps.stem(word)
         if word not in stop_words:
             resp.append(word)
     test_responses[i] = ' '.join(resp)
@@ -135,21 +103,17 @@ for i, context_list in enumerate(test_contexts):
     for j, context in enumerate(context_list):
         context_l = []
         for k, word in enumerate(context):
-            # textb = TextBlob(word)
-            # word = str(textb.correct())
-#            word = word.replace('#', '')
             if word in stop_words:
                 continue
             word = lemmatizer.lemmatize(word)
-#            word = word.lower()
-#            word = ps.stem(word)
             if word not in stop_words:
                 context_l.append(word)
         context_list[j] = ' '.join(context_l)
     test_contexts[i] = ' '.join(context_list)
     test_contexts[i] = emoji.demojize(test_contexts[i])
 
-#print(test_contexts[0], len(test_contexts[0][0]))
+
+#appends contexts to the responses for training and test data
 train_context_responses = ['' for i in range(len(train_responses))]
 test_context_responses = ['' for i in range(len(test_responses))]
 for i in range(len(train_responses)):
@@ -158,24 +122,19 @@ for i in range(len(train_responses)):
 for i in range(len(test_responses)):
     test_context_responses[i] += test_responses[i] + test_contexts[i]
 
-#print(test_context_responses[0], type(test_context_responses[0]))
+
 
 #use one of the sklearn classifiers to train and then label test data (SVM)
 tv = TfidfVectorizer(max_features = 5000)
 train_tfidf = tv.fit_transform(train_context_responses).toarray()
 test_tfidf = tv.transform(test_context_responses).toarray()
-#print(test_tfidf[0], type(test_tfidf[0]))
 
 
 
 
-# estimators = [('normalize', StandardScaler()), ('svm', SVC())]
-# lsvc = Pipeline(estimators)
-
-
-#SVM!!!!!
+#SVM TUNING HYPERPARAMETERS
  #print(train_responses[0])
-lsvc = SVC()
+# lsvc = SVC()
 train_labels_bin = [1 if label == 'SARCASM' else 0 for label in train_labels]
 
 # grid_param = {
@@ -199,7 +158,7 @@ lsvc.fit(train_tfidf, train_labels)
 test_labels = lsvc.predict(test_tfidf)
 #print(test_labels)
 
-#BAYES!!!
+#BAYES
 #grid_param = {
 # 'alpha': [0.5, 0.6, 0.7, 0.8, 0.9, 1.0, 1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 1.7, 1.8, 1.9, 2.0, 2.1, 2.2, 2.3, 2.4, 2.5, 2.6, 2.7, 2.8, 2.9, 3.0, 3.1, 3.2, 3.3, 3.4, 3.5],
 # 'fit_prior': [True, False]
@@ -234,7 +193,7 @@ test_labels = lsvc.predict(test_tfidf)
 #best_parameters = gd_sr.best_params_
 #print(best_parameters)
 
-#RANDOM FOREST!!!
+#RANDOM FOREST
 # train_tfidf = np.array(train_tfidf)
 # test_tfidf = np.array(test_tfidf)
  # train_tfidf = train_tfidf.astype(np.float64)
